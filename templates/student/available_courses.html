@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Available Courses</h1>
+<div class="row">
+    {% for course in courses %}
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ course.title }}</h5>
+                <p class="card-text">{{ course.description }}</p>
+                <p class="card-text"><small class="text-muted">Teacher: {{ course.teacher.username }}</small></p>
+                <a href="{{ url_for('student.enroll', course_id=course.id) }}" class="btn btn-success">Enroll</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p>No new courses available.</p>
+    {% endfor %}
+</div>
+{% endblock %}

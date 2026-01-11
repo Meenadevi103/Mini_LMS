@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Admin Dashboard</h1>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Users</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ users_count }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Courses</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ courses_count }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-header">Enrollments</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ enrollment_count }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Manage Users</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.role }}</td>
+            <td>{{ 'Active' if user.is_active_user else 'Inactive' }}</td>
+            <td>
+                {% if user.role != 'admin' %}
+                {% if user.is_active_user %}
+                <a href="{{ url_for('admin.deactivate_user', user_id=user.id) }}"
+                    class="btn btn-sm btn-warning">Deactivate</a>
+                {% else %}
+                <a href="{{ url_for('admin.activate_user', user_id=user.id) }}"
+                    class="btn btn-sm btn-success">Activate</a>
+                {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>All Courses</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Teacher</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.title }}</td>
+            <td>{{ course.teacher.username }}</td>
+            <td>
+                <a href="{{ url_for('admin.delete_course', course_id=course.id) }}" class="btn btn-sm btn-danger"
+                    onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

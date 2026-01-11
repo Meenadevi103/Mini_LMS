@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add Material</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.material_type.label(class="form-label") }}
+        {{ form.material_type(class="form-select", onchange="toggleFields()") }}
+    </div>
+    <div class="mb-3" id="content-field">
+        {{ form.content.label(class="form-label") }}
+        {{ form.content(class="form-control") }}
+        <small class="form-text text-muted">Enter Link or Note content here.</small>
+    </div>
+    <div class="mb-3" id="file-field" style="display:none;">
+        {{ form.file.label(class="form-label") }}
+        {{ form.file(class="form-control") }}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+<script>
+    function toggleFields() {
+        var type = document.getElementById('material_type').value;
+        var contentField = document.getElementById('content-field');
+        var fileField = document.getElementById('file-field');
+
+        if (type === 'pdf') {
+            contentField.style.display = 'none';
+            fileField.style.display = 'block';
+        } else {
+            contentField.style.display = 'block';
+            fileField.style.display = 'none';
+        }
+    }
+    // Run on load
+    toggleFields();
+</script>
+{% endblock %}

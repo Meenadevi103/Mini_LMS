@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Submissions for {{ assignment.title }}</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Submitted At</th>
+            <th>Content</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for submission in submissions %}
+        <tr>
+            <td>{{ submission.student.username }}</td>
+            <td>{{ submission.submitted_at }}</td>
+            <td>{{ submission.content }}</td>
+            <td>{{ submission.grade or 'Not Graded' }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4">No submissions yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

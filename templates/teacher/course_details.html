@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ course.title }}</h1>
+<p>{{ course.description }}</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Materials</h3>
+        <a href="{{ url_for('teacher.add_material', course_id=course.id) }}" class="btn btn-sm btn-primary mb-2">Add
+            Material</a>
+        <ul class="list-group mb-3">
+            {% for material in course.materials %}
+            <li class="list-group-item">
+                <strong>{{ material.title }}</strong> ({{ material.material_type }})
+                <br>
+                {% if material.material_type == 'link' %}
+                <a href="{{ material.content }}" target="_blank">{{ material.content }}</a>
+                {% elif material.material_type == 'pdf' %}
+                <a href="{{ url_for('static', filename='uploads/' + material.content) }}" target="_blank">View PDF</a>
+                {% else %}
+                {{ material.content }}
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h3>Assignments</h3>
+        <a href="{{ url_for('teacher.add_assignment', course_id=course.id) }}"
+            class="btn btn-sm btn-primary mb-2">Create Assignment</a>
+        <ul class="list-group">
+            {% for assignment in course.assignments %}
+            <li class="list-group-item">
+                <strong>{{ assignment.title }}</strong> - Due: {{ assignment.due_date }}
+                <br>
+                <a href="{{ url_for('teacher.view_submissions', assignment_id=assignment.id) }}"
+                    class="btn btn-sm btn-info mt-1">View Submissions</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

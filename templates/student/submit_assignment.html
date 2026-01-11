@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Submit Assignment: {{ assignment.title }}</h1>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.content.label(class="form-label") }}
+        {{ form.content(class="form-control", rows=5) }}
+        <small class="form-text text-muted">Enter your answer or a link to your work.</small>
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}
